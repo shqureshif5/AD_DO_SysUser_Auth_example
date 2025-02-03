@@ -1,0 +1,48 @@
+{
+    "schemaVersion": "1.7.0",
+    "async": true,
+    "class": "Device",
+    "label": "AD role based auth to BIG-IP. Created Group BIGIP in AD and assigned it to users",
+    "Common": {
+        "class": "Tenant",
+        "TEAM1": {
+            "class": "RemoteAuthRole",
+            "attribute": "memberOF=CN=BIGIP,DC=f5poc,DC=local",
+            "console": "tmsh",
+            "lineOrder": 925,
+            "role": "operator",
+            "remoteAccess": true,
+            "userPartition": "all"
+        },
+        "myAuth": {
+            "class": "Authentication",
+            "enabledSourceType": "activeDirectory",
+            "fallback": true,
+            "remoteUsersDefaults": {
+                "partitionAccess": "all",
+                "terminalAccess": "tmsh",
+                "role": "resource-admin"
+            },
+            "ldap": {
+                "bindTimeout": 40,
+                "checkBindPassword": true,
+                "checkRemoteRole": true,
+                "idleTimeout": 20,
+                "ignoreAuthInfoUnavailable": true,
+                "ignoreUnknownUser": true,
+                "loginAttribute": "sAMAccountName",
+                "port": 389,
+                "referrals": true,
+                "searchScope": "sub",
+                "searchBaseDn": "CN=Users,DC=f5poc,DC=local",
+                "searchTimeout": 687,
+                "servers": [
+                    "10.1.10.10"
+                ],
+                "ssl": "disabled",
+                "userTemplate": "CN=%s,CN=Users,DC=f5poc,DC=local",
+                "version": 2
+            }
+        }
+    }
+}
